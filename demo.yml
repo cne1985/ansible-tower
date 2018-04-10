@@ -1,0 +1,23 @@
+- hosts: SimpleWindowsVM
+  gather_facts: false
+  tasks:
+    - name: Create Update Log Folder
+      win_file:
+        path: C:\AnsibleUpdateLog
+        state: directory
+  
+    - name: Install chocolatey packages
+      win_chocolatey:
+        name: "{{ item }}"
+        msg: Installing "{{ item }}"
+        state: present
+      with_items:
+        - googlechrome
+        - notepadplusplus.install
+        - putty.install
+          
+    - name: Install SysInternals
+      win_chocolatey:
+        name: sysinternals
+        state: present
+        params: /InstallDir:C:\SysInternals
