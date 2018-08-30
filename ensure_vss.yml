@@ -1,0 +1,6 @@
+- hosts: all
+  tasks:
+    - name: Ensure VSS is running
+      win_service:
+        name: VSS
+        state: started
