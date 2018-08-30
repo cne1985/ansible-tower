@@ -1,0 +1,12 @@
+- hosts: all
+  tasks:
+    - name: Create Update Log Folder
+      win_file:
+        path: C:\AnsibleUpdateLog
+        state: directory
+
+    - name: Update Windows
+      win_updates:
+          log_path: C:\AnsibleUpdateLog\ansible_update.log
+          category_names: DefinitionUpdates # not required. choices: Application;Connectors;CriticalUpdates;DefinitionUpdates;DeveloperKits;FeaturePacks;Guidance;SecurityUpdates;ServicePacks;Tools;UpdateRollups;Updates. A scalar or list of categories to install updates from
+          reboot: yes
