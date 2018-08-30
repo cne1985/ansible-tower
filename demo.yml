@@ -1,5 +1,4 @@
-- hosts: SimpleWindowsVM
-  gather_facts: false
+- hosts: all
   tasks:
     - name: Create Update Log Folder
       win_file:
