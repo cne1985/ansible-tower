@@ -1,8 +1,0 @@
----
-- hosts: all
- 
-  tasks:
- 
-  - name: Get all disabled users in o365
-    win_shell:
-      Get-MsolUser -EnabledFilter DisabledOnly
