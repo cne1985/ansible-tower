@@ -9,6 +9,7 @@
       win_chocolatey:
         name: "{{ item }}"
         state: present
+        force: yes
       with_items:
         - googlechrome
         - notepadplusplus.install
