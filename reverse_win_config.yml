@@ -9,6 +9,7 @@
       win_chocolatey:
         name: "{{ item }}"
         state: absent
+        force: yes
       with_items:
         - firefox
         - notepadplusplus.install
