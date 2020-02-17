@@ -8,10 +8,9 @@
     - name: Uninstall chocolatey packages
       win_chocolatey:
         name: "{{ item }}"
-        msg: Installing "{{ item }}"
         state: absent
       with_items:
-        - googlechrome
+        - firefox
         - notepadplusplus.install
         - putty.install
           
