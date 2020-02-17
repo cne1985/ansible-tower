@@ -11,7 +11,7 @@
         state: present
         force: yes
       with_items:
-        - googlechrome
+        - firefox
         - notepadplusplus.install
         - putty.install
           
