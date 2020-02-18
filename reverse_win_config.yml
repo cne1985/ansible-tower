@@ -4,6 +4,11 @@
       win_file:
         path: C:\AnsibleUpdateLog
         state: absent
+        
+    - name: Remove Update Log Folder
+      win_file:
+        path: C:\SysInternals
+        state: absent
   
     - name: Uninstall chocolatey packages
       win_chocolatey:
@@ -15,8 +20,8 @@
         - notepadplusplus.install
         - putty.install
           
-    - name: Uninstall SysInternals
-      win_chocolatey:
-        name: sysinternals
-        state: absent
-        params: /InstallDir:C:\SysInternals
+#     - name: Uninstall SysInternals
+#       win_chocolatey:
+#         name: sysinternals
+#         state: absent
+#         params: /InstallDir:C:\SysInternals
