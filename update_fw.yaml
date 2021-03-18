@@ -50,7 +50,7 @@
 
     - name: Update firewall rules on hr03
       uri:
-        url: "POST https://management.azure.com/subscriptions/21d5f074-76f5-4c1a-9230-b595427a7a0a/resourceGroups/human_resources/providers/microsoft.Compute/virtualMachines/hr03/runCommand?api-version=2018-10-01"
+        url: "https://management.azure.com/subscriptions/21d5f074-76f5-4c1a-9230-b595427a7a0a/resourceGroups/human_resources/providers/microsoft.Compute/virtualMachines/hr03/runCommand?api-version=2018-10-01"
         method: post
         headers:
           authorization: "bearer {{ login.json.access_token }}"
