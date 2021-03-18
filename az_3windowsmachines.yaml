@@ -44,7 +44,7 @@
         resource_group: "{{ resource_group }}"
         allocation_method: Dynamic
         name: hr_ip1
-        register: ip1
+      register: ip1
 
     - name: Output public IP
       debug:
@@ -55,7 +55,7 @@
         resource_group: "{{ resource_group }}"
         allocation_method: Dynamic
         name: hr_ip2
-        register: ip2
+      register: ip2
 
     - name: Output public IP
       debug:
@@ -66,7 +66,7 @@
         resource_group: "{{ resource_group }}"
         allocation_method: Dynamic
         name: hr_ip3
-        register: ip3
+      register: ip3
 
     - name: Output public IP
       debug:
