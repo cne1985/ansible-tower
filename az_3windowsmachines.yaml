@@ -1,8 +1,5 @@
 ---
-- hosts: localhost
-  connection: local
-  gather_facts: false
-  vars:
+- vars:
     resource_group: human_resources
     storage_account: cetestaccount001
     location: uksouth
