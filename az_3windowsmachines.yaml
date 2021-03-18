@@ -3,9 +3,11 @@
   gather_facts: false
   vars:
     resource_group: human_resources
-    storage_account: cetestaccount001
+    # storage_account: cetestaccount001
     location: uksouth
     vnet: hr_vnet
+    subnet: hr_subnet
+    security_group: hr_security_group
     admin_username: "{{ admin_username }}"
     admin_password: "{{ admin_password }}"
   tasks:
@@ -18,11 +20,11 @@
           tier: "production"
           delete: "never"
 
-    - name: Create storage account
-      azure_rm_storageaccount:
-        resource_group: "{{ resource_group }}"
-        name: "{{ storage_account }}"
-        account_type: Standard_LRS
+    # - name: Create storage account
+    #   azure_rm_storageaccount:
+    #     resource_group: "{{ resource_group }}"
+    #     name: "{{ storage_account }}"
+    #     account_type: Standard_LRS
 
     - name: Create virtual network
       azure_rm_virtualnetwork:
@@ -33,7 +35,7 @@
     - name: Add subnet
       azure_rm_subnet:
         resource_group: "{{ resource_group }}"
-        name: subnet001
+        name: "{{ subnet }}"
         address_prefix: "10.10.0.0/24"
         virtual_network: "{{ vnet }}"
 
@@ -41,24 +43,39 @@
       azure_rm_publicipaddress:
         resource_group: "{{ resource_group }}"
         allocation_method: Dynamic
-        name: publicip001
+        name: hr_ip1
+        register: ip1
+
+    - name: Output public IP
+      debug:
+        msg: "The public IP is {{ ip1.state.ip_address }}"
 
     - name: Create public ip 2
       azure_rm_publicipaddress:
         resource_group: "{{ resource_group }}"
         allocation_method: Dynamic
-        name: publicip002
+        name: hr_ip2
+        register: ip2
+
+    - name: Output public IP
+      debug:
+        msg: "The public IP is {{ ip2.state.ip_address }}"
 
     - name: Create public ip 3
       azure_rm_publicipaddress:
         resource_group: "{{ resource_group }}"
         allocation_method: Dynamic
-        name: publicip003
+        name: hr_ip3
+        register: ip3
+
+    - name: Output public IP
+      debug:
+        msg: "The public IP is {{ ip3.state.ip_address }}"
 
     - name: Create security group that allows WinRM
       azure_rm_securitygroup:
         resource_group: "{{ resource_group }}"
-        name: secgroup001
+        name: "{{ security_group }}"
         rules:
           - name: WinRM
             protocol: Tcp
@@ -77,29 +94,29 @@
     - name: Create NIC 1
       azure_rm_networkinterface:
         resource_group: "{{ resource_group }}"
-        name: testnic001
+        name: hr_nic1
         virtual_network: "{{ vnet }}"
-        subnet: subnet001
-        public_ip_name: publicip001
-        security_group: secgroup001
+        subnet: "{{ subnet }}"
+        public_ip_name: hr_ip1
+        security_group: "{{ security_group }}"
 
     - name: Create NIC 2
       azure_rm_networkinterface:
         resource_group: "{{ resource_group }}"
-        name: testnic002
+        name: hr_nic2
         virtual_network: "{{ vnet }}"
-        subnet: subnet001
-        public_ip_name: publicip002
-        security_group: secgroup001
+        subnet: "{{ subnet }}"
+        public_ip_name: hr_ip2
+        security_group: "{{ security_group }}"
 
     - name: Create NIC 3
       azure_rm_networkinterface:
         resource_group: "{{ resource_group }}"
-        name: testnic003
+        name: hr_nic3
         virtual_network: "{{ vnet }}"
-        subnet: subnet001
-        public_ip_name: publicip003
-        security_group: secgroup001
+        subnet: "{{ subnet }}"
+        public_ip_name: hr_ip3
+        security_group: "{{ security_group }}"
 
     - name: Create virtual machine 1
       azure_rm_virtualmachine:
@@ -112,7 +129,7 @@
         # storage_blob: testvm001.vhd
         admin_username: "{{ admin_username }}"
         admin_password: "{{ admin_password }}"
-        network_interfaces: testnic001
+        network_interfaces: hr_nic1
         image:
           offer: WindowsServer
           publisher: MicrosoftWindowsServer
@@ -130,7 +147,7 @@
         # storage_blob: testvm002.vhd
         admin_username: "{{ admin_username }}"
         admin_password: "{{ admin_password }}"
-        network_interfaces: testnic002
+        network_interfaces: hr_nic2
         image:
           offer: WindowsServer
           publisher: MicrosoftWindowsServer
@@ -148,11 +165,10 @@
         # storage_blob: testvm003.vhd
         admin_username: "{{ admin_username }}"
         admin_password: "{{ admin_password }}"
-        network_interfaces: testnic003
+        network_interfaces: hr_nic3
         image:
           offer: WindowsServer
           publisher: MicrosoftWindowsServer
           sku: "2016-Datacenter"
           version: latest
           
-    - meta: refresh_inventory
