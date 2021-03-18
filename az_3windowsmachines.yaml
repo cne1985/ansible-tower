@@ -1,0 +1,156 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    resource_group: human_resources
+    storage_account: cetestaccount001
+    location: uksouth
+    vnet: hr_vnet
+    admin_username: "{{ admin_username }}"
+    admin_password: "{{ admin_password }}"
+  tasks:
+    - name: Create a resource group
+      azure_rm_resourcegroup:
+        name: "{{ resource_group }}"
+        location: "{{ location }}"
+        tags:
+          tier: "production"
+          delete: "never"
+
+    - name: Create storage account
+      azure_rm_storageaccount:
+        resource_group: "{{ resource_group }}"
+        name: "{{ storage_account }}"
+        account_type: Standard_LRS
+
+    - name: Create virtual network
+      azure_rm_virtualnetwork:
+        resource_group: "{{ resource_group }}"
+        name: "{{ vnet }}"
+        address_prefixes: "10.10.0.0/16"
+
+    - name: Add subnet
+      azure_rm_subnet:
+        resource_group: "{{ resource_group }}"
+        name: subnet001
+        address_prefix: "10.10.0.0/24"
+        virtual_network: "{{ vnet }}"
+
+    - name: Create public ip 1
+      azure_rm_publicipaddress:
+        resource_group: "{{ resource_group }}"
+        allocation_method: Dynamic
+        name: publicip001
+
+    - name: Create public ip 2
+      azure_rm_publicipaddress:
+        resource_group: "{{ resource_group }}"
+        allocation_method: Dynamic
+        name: publicip002
+
+    - name: Create public ip 3
+      azure_rm_publicipaddress:
+        resource_group: "{{ resource_group }}"
+        allocation_method: Dynamic
+        name: publicip003
+
+    - name: Create security group that allows WinRM
+      azure_rm_securitygroup:
+        resource_group: "{{ resource_group }}"
+        name: secgroup001
+        rules:
+          - name: WinRM
+            protocol: Tcp
+            destination_port_range: 5895
+            access: Allow
+            priority: 101
+            direction: Inbound
+
+          - name: RDP
+            protocol: Tcp
+            destination_port_range: 3389
+            access: Allow
+            priority: 102
+            direction: Inbound
+
+    - name: Create NIC 1
+      azure_rm_networkinterface:
+        resource_group: "{{ resource_group }}"
+        name: testnic001
+        virtual_network: "{{ vnet }}"
+        subnet: subnet001
+        public_ip_name: publicip001
+        security_group: secgroup001
+
+    - name: Create NIC 2
+      azure_rm_networkinterface:
+        resource_group: "{{ resource_group }}"
+        name: testnic002
+        virtual_network: "{{ vnet }}"
+        subnet: subnet001
+        public_ip_name: publicip002
+        security_group: secgroup001
+
+    - name: Create NIC 3
+      azure_rm_networkinterface:
+        resource_group: "{{ resource_group }}"
+        name: testnic003
+        virtual_network: "{{ vnet }}"
+        subnet: subnet001
+        public_ip_name: publicip003
+        security_group: secgroup001
+
+    - name: Create virtual machine 1
+      azure_rm_virtualmachine:
+        os_type: Windows
+        resource_group: "{{ resource_group }}"
+        name: hr01
+        vm_size: Standard_DS1_v2
+        # storage_account: "{{ storage_account }}"
+        # storage_container: testvm001
+        # storage_blob: testvm001.vhd
+        admin_username: "{{ admin_username }}"
+        admin_password: "{{ admin_password }}"
+        network_interfaces: testnic001
+        image:
+          offer: WindowsServer
+          publisher: MicrosoftWindowsServer
+          sku: "2016-Datacenter"
+          version: latest
+
+    - name: Create virtual machine 2
+      azure_rm_virtualmachine:
+        os_type: Windows
+        resource_group: "{{ resource_group }}"
+        name: hr02
+        vm_size: Standard_DS1_v2
+        # storage_account: "{{ storage_account }}"
+        # storage_container: testvm001
+        # storage_blob: testvm002.vhd
+        admin_username: "{{ admin_username }}"
+        admin_password: "{{ admin_password }}"
+        network_interfaces: testnic002
+        image:
+          offer: WindowsServer
+          publisher: MicrosoftWindowsServer
+          sku: "2016-Datacenter"
+          version: latest
+
+    - name: Create virtual machine 3
+      azure_rm_virtualmachine:
+        os_type: Windows
+        resource_group: "{{ resource_group }}"
+        name: hr03
+        vm_size: Standard_DS1_v2
+        # storage_account: "{{ storage_account }}"
+        # storage_container: testvm001
+        # storage_blob: testvm003.vhd
+        admin_username: "{{ admin_username }}"
+        admin_password: "{{ admin_password }}"
+        network_interfaces: testnic003
+        image:
+          offer: WindowsServer
+          publisher: MicrosoftWindowsServer
+          sku: "2016-Datacenter"
+          version: latest
