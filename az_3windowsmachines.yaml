@@ -172,4 +172,9 @@
           sku: "2016-Datacenter"
           version: latest
     
-    
+    - name: "Register IPs for downstream workflow"
+      set_stats:
+        data:
+          ip1: "{{ ip1.state.ip_address }}"
+          ip2: "{{ ip2.state.ip_address }}"
+          ip3: "{{ ip3.state.ip_address }}"
