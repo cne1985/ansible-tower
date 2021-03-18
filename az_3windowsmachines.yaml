@@ -48,7 +48,7 @@
 
     - name: Output public IP
       debug:
-        msg: "The public IP is {{ ip1 }}"
+        msg: "The public IP is {{ ip1.state.ip_address }}"
 
     - name: Create public ip 2
       azure_rm_publicipaddress:
@@ -59,7 +59,7 @@
 
     - name: Output public IP
       debug:
-        msg: "The public IP is {{ ip2 }}"
+        msg: "The public IP is {{ ip2.state.ip_address }}"
 
     - name: Create public ip 3
       azure_rm_publicipaddress:
@@ -172,3 +172,8 @@
           sku: "2016-Datacenter"
           version: latest
           
+---
+- hosts: all
+  tasks:
+  - name: ping
+    win_ping:
