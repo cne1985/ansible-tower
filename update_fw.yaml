@@ -1,0 +1,44 @@
+---
+- hosts: all
+  tasks:
+    - name: Update firewall rules on hr01
+      uri:
+        url: "https://management.azure.com/subscriptions/21d5f074-76f5-4c1a-9230-b595427a7a0a/resourceGroups/human_resources/providers/microsoft.Compute/virtualMachines/hr01/runCommand?api-version=2018-10-01"
+        method: post
+        body_format: json
+        body: {
+          "commandId": "RunPowerShellScript",
+          "script": [
+              "Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False"
+              ],
+          "parameters": [
+        ]
+        }
+
+    - name: Update firewall rules on hr02
+      uri:
+        url: "https://management.azure.com/subscriptions/21d5f074-76f5-4c1a-9230-b595427a7a0a/resourceGroups/human_resources/providers/microsoft.Compute/virtualMachines/hr02/runCommand?api-version=2018-10-01"
+        method: post
+        body_format: json
+        body: {
+          "commandId": "RunPowerShellScript",
+          "script": [
+              "Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False"
+              ],
+          "parameters": [
+        ]
+        }
+
+    - name: Update firewall rules on hr03
+      uri:
+        url: "POST https://management.azure.com/subscriptions/21d5f074-76f5-4c1a-9230-b595427a7a0a/resourceGroups/human_resources/providers/microsoft.Compute/virtualMachines/hr03/runCommand?api-version=2018-10-01"
+        method: post
+        body_format: json
+        body: {
+          "commandId": "RunPowerShellScript",
+          "script": [
+              "Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False"
+              ],
+          "parameters": [
+        ]
+        }
