@@ -1,5 +1,7 @@
 ---
-- vars:
+- hosts: all
+  gather_facts: false
+  vars:
     resource_group: human_resources
     storage_account: cetestaccount001
     location: uksouth
