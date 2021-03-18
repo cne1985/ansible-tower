@@ -42,29 +42,29 @@
     - name: Create public ip 1
       azure_rm_publicipaddress:
         resource_group: "{{ resource_group }}"
-        allocation_method: Dynamic
+        allocation_method: Static
         name: hr_ip1
       register: ip1
 
     - name: Output public IP
       debug:
-        msg: "The public IP is {{ ip1.state.ip_address }}"
+        msg: "The public IP is {{ ip1 }}"
 
     - name: Create public ip 2
       azure_rm_publicipaddress:
         resource_group: "{{ resource_group }}"
-        allocation_method: Dynamic
+        allocation_method: Static
         name: hr_ip2
       register: ip2
 
     - name: Output public IP
       debug:
-        msg: "The public IP is {{ ip2.state.ip_address }}"
+        msg: "The public IP is {{ ip2 }}"
 
     - name: Create public ip 3
       azure_rm_publicipaddress:
         resource_group: "{{ resource_group }}"
-        allocation_method: Dynamic
+        allocation_method: Static
         name: hr_ip3
       register: ip3
 
