@@ -62,7 +62,7 @@
         rules:
           - name: WinRM
             protocol: Tcp
-            destination_port_range: 5895
+            destination_port_range: 5985
             access: Allow
             priority: 101
             direction: Inbound
