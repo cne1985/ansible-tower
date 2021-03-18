@@ -29,7 +29,7 @@
           "parameters": [
         ]
         }
-        status: 202
+        status_code: 202
 
     - name: Update firewall rules on hr02
       uri:
@@ -46,7 +46,7 @@
           "parameters": [
         ]
         }
-        status: 202
+        status_code: 202
 
     - name: Update firewall rules on hr03
       uri:
@@ -63,4 +63,4 @@
           "parameters": [
         ]
         }
-        status: 202
+        status_code: 202
