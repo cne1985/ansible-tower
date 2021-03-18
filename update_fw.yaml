@@ -3,7 +3,7 @@
   tasks:
     - name: Authenticate with the Azure
       uri:
-        url: "https://login.microsoftonline.com/21d5f074-76f5-4c1a-9230-b595427a7a0a/oauth2/token"
+        url: "https://login.microsoftonline.com/cc3a8946-7b77-4292-804e-febc55cc3b42/oauth2/token"
         method: post
         body_format: form-urlencoded
         body:
