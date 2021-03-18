@@ -171,9 +171,5 @@
           publisher: MicrosoftWindowsServer
           sku: "2016-Datacenter"
           version: latest
-          
----
-- hosts: all
-  tasks:
-  - name: ping
-    win_ping:
+    
+    
