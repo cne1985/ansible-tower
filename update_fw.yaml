@@ -1,6 +1,23 @@
 ---
 - hosts: localhost
   tasks:
+    - name: Authenticate with the Azure
+      uri:
+        url: "https://login.microsoftonline.com/21d5f074-76f5-4c1a-9230-b595427a7a0a/oauth2/token"
+        method: post
+        body_format: form-urlencoded
+        body:
+          - [ grant_type, client_credentials ]
+          - [ client_id, "{{ appId }}" ]
+          - [ client_secret, "{{ password }}" ]
+          - [ resource, "https://management.azure.com/"]
+      register: login
+
+    - name: Bearer Token
+      debug:
+        msg: "{{ login }}"
+      
+
     - name: Update firewall rules on hr01
       uri:
         url: "https://management.azure.com/subscriptions/21d5f074-76f5-4c1a-9230-b595427a7a0a/resourceGroups/human_resources/providers/microsoft.Compute/virtualMachines/hr01/runCommand?api-version=2018-10-01"
