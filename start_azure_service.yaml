@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Authenticate with the Azure
+      uri:
+        url: "https://login.microsoftonline.com/cc3a8946-7b77-4292-804e-febc55cc3b42/oauth2/token"
+        method: post
+        body_format: form-urlencoded
+        body:
+          - [ grant_type, client_credentials ]
+          - [ client_id, "{{ appId }}" ]
+          - [ client_secret, "{{ password }}" ]
+          - [ resource, "https://management.azure.com/"]
+      register: login
+
+
+    - name: Restart Firewall
+      uri:
+        url: "https://management.azure.com/subscriptions/21d5f074-76f5-4c1a-9230-b595427a7a0a/resourceGroups/galaxz2021/providers/microsoft.Compute/virtualMachines/fw-01/start?api-version=2018-10-01"
+        method: post
+        headers:
+          authorization: "bearer {{ login.json.access_token }}"
+        status_code: 200
