@@ -21,4 +21,4 @@
         headers:
           authorization: "bearer {{ login.json.access_token }}"
           Content-Length: 0
-        status_code: 200
+        status_code: 202
