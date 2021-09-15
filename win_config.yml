@@ -1,5 +1,6 @@
 - hosts:
-    all
+    vm01
+    vm02
   tasks:
     - name: Create Update Log Folder
       win_file:
