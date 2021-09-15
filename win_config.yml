@@ -33,7 +33,7 @@
         location: 242
         format: en-GB
         unicode_language: en-GB
-        register: result
+      register: result
         
     - win_reboot:
       when: result.restart_required
