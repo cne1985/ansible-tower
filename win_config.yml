@@ -1,7 +1,5 @@
 - hosts:
-    hr01
-    hr02
-    hr03
+    localhost
   tasks:
     - name: Create Update Log Folder
       win_file:
