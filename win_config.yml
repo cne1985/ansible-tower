@@ -28,7 +28,7 @@
         timezone: GMT Standard Time
         # Reboot when format, location or unicode has changed
         
-    - name: Set format, location and unicode to English Australia and copy settings, reboot if required
+    - name: Set format and region, reboot if required
       win_region:
         location: 242
         format: en-GB
@@ -36,4 +36,4 @@
         register: result
         
     - win_reboot:
-        when: result.restart_required
+      when: result.restart_required
